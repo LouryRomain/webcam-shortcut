@@ -1,0 +1,258 @@
+# Filename: beta.kv 
+
+<Screen3>:
+
+
+ScreenManager:
+	dict_action:{'haut': 'Aucune','bas': 'Aucune','gauche': 'Aucune','droite': 'Aucune'}
+	Screen1:
+		name: 'screen1'
+		FloatLayout:
+			Label:
+				text:'Welcome dans le Beta Test de la Beta'
+				pos_hint: {"x": 0.3, 'top': 0.7}
+				size_hint: 0.4, 0.1
+				font_size: 25
+			Label:
+				text:'Powered by Romain Loury'
+				pos_hint: {"x": 0.75, "y": 0.}
+				size_hint: 0.2, 0.1
+				font_size: 15
+			Button:
+				text: "Aller aux reglages"
+				pos_hint: {"x": 0.3, "y": 0.3}
+				size_hint: 0.4, 0.1
+				on_release: 
+					root.current = 'screen2'
+
+
+	Screen2:
+		id : screen2
+		spinners: [spinnerbas,spinnerhaut,spinnergauche,spinnerdroit]
+		name: 'screen2'
+		on_enter: root.dict_action=btn1.load_config('1');self.limit_spinner();spinnerbas.text=root.dict_action['bas'];spinnerhaut.text=root.dict_action['haut'];spinnerdroit.text=root.dict_action['droite'];spinnergauche.text=root.dict_action['gauche']
+		FloatLayout:
+			ConfigButton:
+				id:btn1
+				text: "1"
+				state:'down'
+				pos_hint: {"x": 0.2, "y": 0.78}
+				size_hint: 0.07, 0.07
+				on_release:
+					if self.state == "down": \
+					btn1.state='down';root.dict_action=self.load_config(self.text);spinnerbas.text=root.dict_action['bas'];spinnerhaut.text=root.dict_action['haut'];spinnerdroit.text=root.dict_action['droite'];spinnergauche.text=root.dict_action['gauche'];btn2.state='normal';btn3.state='normal'
+					else: \
+					btn2.state='normal'
+					btn3.state='normal'
+
+					
+			ConfigButton:
+				id:btn2
+				text: "2"
+				pos_hint: {"x": 0.29, "y": 0.78}
+				size_hint: 0.07, 0.07
+				on_release:
+					if self.state == "down": \
+					btn2.state='down';root.dict_action=self.load_config(self.text);spinnerbas.text=root.dict_action['bas'];spinnerhaut.text=root.dict_action['haut'];spinnerdroit.text=root.dict_action['droite'];spinnergauche.text=root.dict_action['gauche'];btn1.state='normal';btn3.state='normal'
+					else: \
+					btn1.state='normal'
+					btn3.state='normal'
+
+			ConfigButton:
+				id:btn3
+				text: "3"
+				pos_hint: {"x": 0.38, "y": 0.78}
+				size_hint: 0.07, 0.07
+				on_release:
+					if self.state == "down": \
+					btn3.state='down';root.dict_action=self.load_config(self.text);spinnerbas.text=root.dict_action['bas'];spinnerhaut.text=root.dict_action['haut'];spinnerdroit.text=root.dict_action['droite'];spinnergauche.text=root.dict_action['gauche'];btn2.state='normal';btn1.state='normal'
+					else: \
+					btn1.state='normal'
+					btn2.state='normal'
+
+			SaveButton:
+				id:btnsauv
+				text: "Sauvegarder"
+				pos_hint: {"x": 0.5, "y": 0.785}
+				size_hint: 0.15, 0.06
+				on_press:
+					if btn1.state == "down": \
+					self.save_config('1',root.dict_action)
+					elif btn2.state == "down": \
+					self.save_config('2',root.dict_action)
+					elif btn3.state == "down": \
+					self.save_config('3',root.dict_action)
+
+			Label:
+				text:'Configuration :'
+				pos_hint: {"x": 0.0, "y": 0.78}
+				size_hint: 0.2, 0.07
+
+			Label:
+				text:'Reglage des actions'
+				pos_hint: {"x": .3, "y": 0.89}
+				size_hint: 0.4, 0.1
+				font_size: 25
+
+
+#### Swap Droit
+			Label:
+				text:'Swap Droit :'
+				pos_hint: {"x": 0., "y": 0.17}
+				size_hint: 0.3, 0.05
+
+			Spinner:
+				id: spinnerdroit
+				text: 'Aucune'
+				values: ('Onglet Gauche', 'Onglet Droit', 'Scroll Bas', 'Scroll Haut', 'Lancer une lecture video', 'Ouvrir Explorateur de fichier','Capture ecran','Aucune')
+				pos_hint: {"x": 0.3, "y": 0.17}
+				size_hint: 0.4, 0.05
+				on_text:
+					root.dict_action['droite']=self.text
+
+
+			Button:
+				text: "Test Video"
+				pos_hint: {"x": 0.75, "y": 0.16}
+				size_hint: 0.15, 0.07
+				on_release: 
+					root.current = 'swapdroit'
+					
+					
+#### Swap Gauche
+			Label:
+				text:'Swap Gauche :'
+				pos_hint: {"x": 0., "y": 0.32}
+				size_hint: 0.3, 0.05
+
+
+			Spinner:
+				id: spinnergauche
+				text: 'Aucune'
+				values: ('Onglet Gauche', 'Onglet Droit', 'Scroll Bas', 'Scroll Haut', 'Lancer une lecture video', 'Ouvrir Explorateur de fichier','Capture ecran','Aucune')
+				pos_hint: {"x": 0.3, "y": 0.32}
+				size_hint: 0.4, 0.05
+				on_text:
+					root.dict_action['gauche']=self.text
+
+			Button:
+				text: "Test Video"
+				pos_hint: {"x": 0.75, "y": 0.31}
+				size_hint: 0.15, 0.07
+				on_release: 
+					root.current = 'swapgauche'
+					
+#### Swap Bas
+			Label:
+				text:'Swap Bas :'
+				pos_hint: {"x": 0., "y": 0.46}
+				size_hint: 0.3, 0.05
+
+			Spinner:
+				id: spinnerbas
+				text: 'Aucune'
+				values: ('Onglet Gauche', 'Onglet Droit', 'Scroll Bas', 'Scroll Haut', 'Lancer une lecture video', 'Ouvrir Explorateur de fichier','Capture ecran','Aucune')
+				pos_hint: {"x": 0.3, "y": 0.46}
+				size_hint: 0.4, 0.05
+				on_text:
+					root.dict_action['bas']=self.text
+
+			Button:
+				text: "Test Video"
+				pos_hint: {"x": 0.75, "y": 0.45}
+				size_hint: 0.15, 0.07
+				on_release: 
+					root.current = 'swapbas'
+					
+#### Swap Haut
+			Label:
+				text:'Swap Haut :'
+				pos_hint: {"x": 0., "y": 0.61}
+				size_hint: 0.3, 0.05
+
+			Spinner:
+				id: spinnerhaut
+				text: 'Aucune'
+				values: ('Onglet Gauche', 'Onglet Droit', 'Scroll Bas', 'Scroll Haut', 'Lancer une lecture video', 'Ouvrir Explorateur de fichier','Capture ecran','Aucune')
+				pos_hint: {"x": 0.3, "y": 0.61}
+				size_hint: 0.4, 0.05
+				on_text:
+					root.dict_action['haut']=self.text
+
+			Button:
+				text: "Test Video"
+				pos_hint: {"x": 0.75, "y": 0.60}
+				size_hint: 0.15, 0.07
+				on_release: 
+					root.current = 'swaphaut'
+
+			ToggleButton:
+				text: "Lancer"
+				pos_hint: {"x": 0.425, "y": 0.03}
+				size_hint: 0.15, 0.07
+				on_release: 
+					screen2.launch(root.dict_action,self.state)
+
+
+
+
+	Screen3:
+		id:swapdroit
+		name : 'swapdroit'
+		on_enter:
+			self.on_enter('droite')
+		on_leave:
+			self.on_leave()
+		Button:
+			text: "Retour aux reglages"
+			pos_hint: {"x": 0.7, "y": 0.}
+			size_hint: 0.3, 0.1
+			on_release: 
+				root.current = 'screen2'
+				
+	Screen3:
+		id:swapgauche
+		name : 'swapgauche'
+		on_enter:
+			self.on_enter('gauche')
+		on_leave:
+			self.on_leave()
+		Button:
+			text: "Retour aux reglages"
+			pos_hint: {"x": 0.7, "y": 0.}
+			size_hint: 0.3, 0.1
+			on_release: 
+				root.current = 'screen2'
+				
+	Screen3:
+		id:swaphaut
+		name : 'swaphaut'
+		on_enter:
+			self.on_enter('haut')
+		on_leave:
+			self.on_leave()
+		Button:
+			text: "Retour aux reglages"
+			pos_hint: {"x": 0.7, "y": 0.}
+			size_hint: 0.3, 0.1
+			on_release: 
+				root.current = 'screen2'
+				
+	Screen3:
+		id:swapbas
+		name : 'swapbas'
+		on_enter:
+			self.on_enter('bas')
+		on_leave:
+			self.on_leave()
+		Button:
+			text: "Retour aux reglages"
+			pos_hint: {"x": 0.7, "y": 0.}
+			size_hint: 0.3, 0.1
+			on_release: 
+				root.current = 'screen2'
+
+
+
+
+

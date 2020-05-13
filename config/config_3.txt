@@ -1,0 +1,1 @@
+{'haut': 'Aucune','bas': 'Aucune','gauche': 'Aucune','droite': 'Aucune'}
